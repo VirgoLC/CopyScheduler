@@ -4,7 +4,7 @@ A lightweight Windows desktop app for copying files and folders manually or on a
 
 ## About
 
-I created CopyScheduler for my own use. This is my first programming project, and I’m still learning. I used AI extensively during development, and much of the code was generated or adapted with AI assistance—I don’t claim to have written every line myself.
+I created CopyScheduler for my own use. This is my first programming project, and I’m still learning. I used AI extensively during development, and much of the code was generated or adapted with AI assistance, I don’t claim to have written every line myself.
 
 The app may contain bugs or rough edges. Feedback and bug reports are welcome.
 
