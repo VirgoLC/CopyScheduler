@@ -1,28 +1,36 @@
 # CopyScheduler
 
-CopyScheduler is a small Windows desktop application for copying files and folders manually or on a schedule.
+A lightweight Windows desktop app for copying files and folders manually or on a schedule.
 
 ## About
 
-This is my first project, and I am still learning how to build and improve software. I originally made CopyScheduler for my own use. It may contain bugs or rough edges, so feedback and bug reports are welcome.
+I created CopyScheduler for my own use. This is my first programming project, and I’m still learning. I used AI extensively during development, and much of the code was generated or adapted with AI assistance—I don’t claim to have written every line myself.
+
+The app may contain bugs or rough edges. Feedback and bug reports are welcome.
 
 ## Features
 
-- Copy files and folders with a progress indicator.
-- Schedule copies daily, on selected weekdays, or on a specific date.
+- Copy individual files or folders.
+- Schedule copies every day, on selected weekdays, or on a specific date.
 - Browse for source and destination paths.
-- View copy activity and errors in the application log.
+- Track copy progress and view activity in the log.
 - Choose whether existing destination items should be replaced.
 
-The application must remain open for scheduled copies to run.
+> **Note:** CopyScheduler must remain open for scheduled copies to run.
+
+## Download
+
+Download the latest `CopyScheduler.exe` from the [Releases](https://github.com/VirgoLC/CopyScheduler/releases) page.
 
 ## Run from source
 
-On Windows, install Python and run:
+Requires Windows and Python 3.
 
 ```powershell
 py "python copy_scheduler.py"
 ```
+
+The app uses Python’s standard library, including Tkinter.
 
 ## Build the executable
 
@@ -32,7 +40,7 @@ Install PyInstaller:
 py -m pip install pyinstaller
 ```
 
-From the project folder, build the executable:
+From the project folder, run:
 
 ```powershell
 py -m PyInstaller --noconfirm --clean --onefile --windowed --name CopyScheduler --icon "app.ico" --add-data "app.ico;." --add-data "app.png;." "python copy_scheduler.py"
@@ -40,12 +48,6 @@ py -m PyInstaller --noconfirm --clean --onefile --windowed --name CopyScheduler 
 
 The executable will be created at `dist\CopyScheduler.exe`.
 
-## Project files
+## License
 
-- `python copy_scheduler.py` — application source code.
-- `app.ico` — application icon.
-- `app.png` — image shown in the About window.
-
-## Feedback
-
-Please open an issue if you find a bug or have a suggestion. Since this is my first project, constructive feedback is appreciated.
+This project is licensed under the GNU Affero General Public License v3.0. See [`LICENSE`](LICENSE) for details.
