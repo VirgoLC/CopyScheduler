@@ -5,17 +5,26 @@ import os
 import queue
 import shutil
 import threading
+import tkinter as tk
 import uuid
 from datetime import date, datetime
 from pathlib import Path
-import tkinter as tk
 from tkinter import messagebox, ttk
-
 
 DAYS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 MONTHS = (
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
 )
 
 
@@ -39,9 +48,7 @@ class CopyScheduler:
         self.progress_percent = tk.StringVar(value="0%")
 
         self.custom_days = {day: True for day in DAYS}
-        self.display_days = {
-            day: tk.BooleanVar(value=True) for day in DAYS
-        }
+        self.display_days = {day: tk.BooleanVar(value=True) for day in DAYS}
         self.day_buttons = {}
 
         self.events = queue.Queue()
@@ -113,9 +120,7 @@ class CopyScheduler:
             font=("Segoe UI", 11, "bold"),
         )
         style.configure("TLabel", background=c["bg"], foreground=c["text"])
-        style.configure(
-            "Card.TLabel", background=c["panel"], foreground=c["text"]
-        )
+        style.configure("Card.TLabel", background=c["panel"], foreground=c["text"])
         style.configure(
             "Section.TLabel",
             background=c["panel"],
@@ -230,13 +235,13 @@ class CopyScheduler:
 
         for center_x, center_y, start_angle in corners:
             for step in range(segments_per_corner + 1):
-                angle = math.radians(
-                    start_angle + 90 * step / segments_per_corner
+                angle = math.radians(start_angle + 90 * step / segments_per_corner)
+                points.extend(
+                    (
+                        center_x + radius * math.cos(angle),
+                        center_y + radius * math.sin(angle),
+                    )
                 )
-                points.extend((
-                    center_x + radius * math.cos(angle),
-                    center_y + radius * math.sin(angle),
-                ))
 
         return canvas.create_polygon(
             points,
@@ -373,9 +378,7 @@ class CopyScheduler:
         footer.pack(side="bottom", fill="x")
         footer.pack_propagate(False)
 
-        tk.Frame(
-            footer, height=1, bg=self.colors["border"]
-        ).pack(side="top", fill="x")
+        tk.Frame(footer, height=1, bg=self.colors["border"]).pack(side="top", fill="x")
 
         footer_content = tk.Frame(footer, bg=self.colors["panel"])
         footer_content.pack(fill="both", expand=True)
@@ -413,9 +416,9 @@ class CopyScheduler:
         header.grid(row=0, column=0, sticky="ew", pady=(0, 10))
         header.columnconfigure(1, weight=1)
 
-        tk.Frame(
-            header, bg=self.colors["accent"], width=5
-        ).grid(row=0, column=0, rowspan=2, sticky="ns")
+        tk.Frame(header, bg=self.colors["accent"], width=5).grid(
+            row=0, column=0, rowspan=2, sticky="ns"
+        )
 
         tk.Label(
             header,
@@ -449,9 +452,9 @@ class CopyScheduler:
         ttk.Label(paths, text="Source item:", style="Section.TLabel").grid(
             row=0, column=0, sticky="w", pady=5
         )
-        ttk.Entry(
-            paths, textvariable=self.source, state="readonly"
-        ).grid(row=0, column=1, sticky="ew", padx=10)
+        ttk.Entry(paths, textvariable=self.source, state="readonly").grid(
+            row=0, column=1, sticky="ew", padx=10
+        )
         self._rounded_button(
             paths,
             "Browse...",
@@ -465,12 +468,10 @@ class CopyScheduler:
             font=("Segoe UI", 9, "bold"),
         ).grid(row=0, column=2)
 
-        ttk.Label(
-            paths, text="Destination folder:", style="Section.TLabel"
-        ).grid(row=1, column=0, sticky="w", pady=5)
-        ttk.Entry(
-            paths, textvariable=self.destination, state="readonly"
-        ).grid(
+        ttk.Label(paths, text="Destination folder:", style="Section.TLabel").grid(
+            row=1, column=0, sticky="w", pady=5
+        )
+        ttk.Entry(paths, textvariable=self.destination, state="readonly").grid(
             row=1, column=1, sticky="ew", padx=10
         )
         self._rounded_button(
@@ -486,12 +487,8 @@ class CopyScheduler:
             font=("Segoe UI", 9, "bold"),
         ).grid(row=1, column=2)
 
-        overwrite_frame = tk.Frame(
-            paths, bg=self.colors["border"], padx=1, pady=1
-        )
-        overwrite_frame.grid(
-            row=2, column=0, columnspan=3, sticky="w", pady=(8, 0)
-        )
+        overwrite_frame = tk.Frame(paths, bg=self.colors["border"], padx=1, pady=1)
+        overwrite_frame.grid(row=2, column=0, columnspan=3, sticky="w", pady=(8, 0))
         overwrite_inner = tk.Frame(
             overwrite_frame, bg=self.colors["field"], padx=7, pady=3
         )
@@ -537,9 +534,7 @@ class CopyScheduler:
         )
 
         time_controls = ttk.Frame(schedule, style="Card.TFrame")
-        time_controls.grid(
-            row=1, column=1, sticky="w", padx=10, pady=(8, 4)
-        )
+        time_controls.grid(row=1, column=1, sticky="w", padx=10, pady=(8, 4))
         time_badge, self.time_label = self._outlined_value(
             time_controls, self.time.get()
         )
@@ -561,14 +556,10 @@ class CopyScheduler:
         self.schedule_detail_label = ttk.Label(
             schedule, text="Days of the week:", style="Section.TLabel"
         )
-        self.schedule_detail_label.grid(
-            row=2, column=0, sticky="nw", pady=(7, 3)
-        )
+        self.schedule_detail_label.grid(row=2, column=0, sticky="nw", pady=(7, 3))
 
         self.days_row = ttk.Frame(schedule, style="Card.TFrame")
-        self.days_row.grid(
-            row=2, column=1, columnspan=2, sticky="w", padx=10, pady=4
-        )
+        self.days_row.grid(row=2, column=1, columnspan=2, sticky="w", padx=10, pady=4)
 
         for day in DAYS:
             button = tk.Canvas(
@@ -653,9 +644,7 @@ class CopyScheduler:
         progress_border.grid(row=0, column=0, sticky="ew")
         progress_border.columnconfigure(0, weight=1)
 
-        self.progress = ttk.Progressbar(
-            progress_border, maximum=100, value=0
-        )
+        self.progress = ttk.Progressbar(progress_border, maximum=100, value=0)
         self.progress.grid(row=0, column=0, sticky="ew")
 
         ttk.Label(
@@ -716,9 +705,7 @@ class CopyScheduler:
         )
         self.log.grid(row=0, column=0, sticky="nsew")
 
-        scrollbar = ttk.Scrollbar(
-            log_frame, orient="vertical", command=self.log.yview
-        )
+        scrollbar = ttk.Scrollbar(log_frame, orient="vertical", command=self.log.yview)
         scrollbar.grid(row=0, column=1, sticky="ns")
         self.log.configure(yscrollcommand=scrollbar.set)
 
@@ -736,9 +723,7 @@ class CopyScheduler:
         popup = tk.Toplevel(self.root)
         popup.withdraw()
         popup.title(
-            "Select source item"
-            if target == "source"
-            else "Select destination folder"
+            "Select source item" if target == "source" else "Select destination folder"
         )
         popup.transient(self.root)
         popup.geometry("640x460")
@@ -839,9 +824,7 @@ class CopyScheduler:
             else:
                 self.source.set(str(path))
 
-            self.browse_directories[target] = (
-                path if path.is_dir() else path.parent
-            )
+            self.browse_directories[target] = path if path.is_dir() else path.parent
             popup.destroy()
 
         def load_drives():
@@ -860,9 +843,7 @@ class CopyScheduler:
                 if drive_mask & (1 << index):
                     drive = Path(f"{chr(65 + index)}:\\")
                     try:
-                        drive_type = ctypes.windll.kernel32.GetDriveTypeW(
-                            str(drive)
-                        )
+                        drive_type = ctypes.windll.kernel32.GetDriveTypeW(str(drive))
                     except (AttributeError, OSError):
                         drive_type = 0
 
@@ -923,11 +904,7 @@ class CopyScheduler:
                 load_drives()
                 return "break"
 
-            if (
-                len(raw_path) == 2
-                and raw_path[1] == ":"
-                and raw_path[0].isalpha()
-            ):
+            if len(raw_path) == 2 and raw_path[1] == ":" and raw_path[0].isalpha():
                 raw_path += "\\"
 
             try:
@@ -1003,6 +980,7 @@ class CopyScheduler:
             return "break"
 
         suggestion_list.bind("<Button-1>", choose_suggestion)
+
         def handle_suggestion_key(event):
             if event.keysym in ("Up", "Down"):
                 if (
@@ -1047,9 +1025,17 @@ class CopyScheduler:
         def suggest_paths(event=None):
             if event and (
                 event.state & 0x4
-                or event.keysym in {
-                    "Return", "Escape", "Up", "Down", "Tab",
-                    "Left", "Right", "Home", "End",
+                or event.keysym
+                in {
+                    "Return",
+                    "Escape",
+                    "Up",
+                    "Down",
+                    "Tab",
+                    "Left",
+                    "Right",
+                    "Home",
+                    "End",
                 }
             ):
                 return
@@ -1080,9 +1066,7 @@ class CopyScheduler:
                     parent = Path(raw_path).expanduser()
                     prefix = ""
                 elif (
-                    len(raw_path) == 2
-                    and raw_path[1] == ":"
-                    and raw_path[0].isalpha()
+                    len(raw_path) == 2 and raw_path[1] == ":" and raw_path[0].isalpha()
                 ):
                     parent = Path(raw_path + "\\")
                     prefix = ""
@@ -1126,9 +1110,7 @@ class CopyScheduler:
 
         def go_up():
             current_path = state["current_path"]
-            if state["showing_drives"] or current_path is None:
-                load_drives()
-            elif current_path.parent == current_path:
+            if state["showing_drives"] or current_path is None or current_path.parent == current_path:
                 load_drives()
             else:
                 load_folder(current_path.parent)
@@ -1145,9 +1127,7 @@ class CopyScheduler:
                 else:
                     select_path(selected)
             except OSError as error:
-                messagebox.showerror(
-                    "Unable to access item", str(error), parent=popup
-                )
+                messagebox.showerror("Unable to access item", str(error), parent=popup)
 
         def accept_selection():
             selection = items.curselection()
@@ -1160,9 +1140,9 @@ class CopyScheduler:
         toolbar.grid(row=3, column=0, sticky="ew", pady=(9, 0))
 
         ttk.Button(toolbar, text="↑ Up", command=go_up).pack(side="left")
-        ttk.Button(
-            toolbar, text="Drives", command=load_drives
-        ).pack(side="left", padx=7)
+        ttk.Button(toolbar, text="Drives", command=load_drives).pack(
+            side="left", padx=7
+        )
         ttk.Button(
             toolbar,
             text="Select current folder",
@@ -1235,12 +1215,8 @@ class CopyScheduler:
     def _center_window(self, window, relative_to):
         window.update_idletasks()
         width, height = window.winfo_width(), window.winfo_height()
-        x = relative_to.winfo_rootx() + (
-            relative_to.winfo_width() - width
-        ) // 2
-        y = relative_to.winfo_rooty() + (
-            relative_to.winfo_height() - height
-        ) // 2
+        x = relative_to.winfo_rootx() + (relative_to.winfo_width() - width) // 2
+        y = relative_to.winfo_rooty() + (relative_to.winfo_height() - height) // 2
         x = max(0, min(x, window.winfo_screenwidth() - width))
         y = max(0, min(y, window.winfo_screenheight() - height))
         window.geometry(f"+{x}+{y}")
@@ -1283,18 +1259,14 @@ class CopyScheduler:
                     style="Popup.Section.TLabel",
                 ).grid(row=0, column=column, padx=4, pady=(4, 8))
 
-            for row, week in enumerate(
-                calendar.monthcalendar(year, month), start=1
-            ):
+            for row, week in enumerate(calendar.monthcalendar(year, month), start=1):
                 for column, day_number in enumerate(week):
                     if day_number:
                         ttk.Button(
                             calendar_area,
                             text=str(day_number),
                             width=4,
-                            command=lambda number=day_number: choose_day(
-                                number
-                            ),
+                            command=lambda number=day_number: choose_day(number),
                         ).grid(row=row, column=column, padx=3, pady=3)
 
         def change_month(amount):
@@ -1310,18 +1282,18 @@ class CopyScheduler:
 
         header = ttk.Frame(frame)
         header.pack(fill="x", pady=(0, 10))
-        ttk.Button(
-            header, text="‹", width=3, command=lambda: change_month(-1)
-        ).pack(side="left")
+        ttk.Button(header, text="‹", width=3, command=lambda: change_month(-1)).pack(
+            side="left"
+        )
         ttk.Label(
             header,
             textvariable=heading,
             style="Popup.Section.TLabel",
             anchor="center",
         ).pack(side="left", fill="x", expand=True, padx=12)
-        ttk.Button(
-            header, text="›", width=3, command=lambda: change_month(1)
-        ).pack(side="right")
+        ttk.Button(header, text="›", width=3, command=lambda: change_month(1)).pack(
+            side="right"
+        )
 
         draw_month()
         popup.update_idletasks()
@@ -1346,9 +1318,7 @@ class CopyScheduler:
         ).pack(pady=(0, 14))
 
         try:
-            initial_hour, initial_minute = map(
-                int, self.time.get().split(":")
-            )
+            initial_hour, initial_minute = map(int, self.time.get().split(":"))
         except ValueError:
             initial_hour, initial_minute = 12, 0
 
@@ -1424,9 +1394,7 @@ class CopyScheduler:
             style="Popup.Section.TLabel",
             font=("Segoe UI", 20, "bold"),
         ).grid(row=0, column=1, padx=2, pady=(22, 0))
-        get_minute = make_picker(
-            lists, "Minutes", range(60), initial_minute, 2
-        )
+        get_minute = make_picker(lists, "Minutes", range(60), initial_minute, 2)
 
         def apply_time():
             value = f"{get_hour():02d}:{get_minute():02d}"
@@ -1434,16 +1402,17 @@ class CopyScheduler:
             self.time_label.configure(text=value)
             popup.destroy()
 
-        ttk.Button(
-            frame, text="Done", style="Accent.TButton", command=apply_time
-        ).pack(fill="x", pady=(18, 0))
+        ttk.Button(frame, text="Done", style="Accent.TButton", command=apply_time).pack(
+            fill="x", pady=(18, 0)
+        )
 
         popup.update_idletasks()
         self.root.update_idletasks()
         x = self.root.winfo_rootx()
-        y = self.root.winfo_rooty() + (
-            self.root.winfo_height() - popup.winfo_height()
-        ) // 2
+        y = (
+            self.root.winfo_rooty()
+            + (self.root.winfo_height() - popup.winfo_height()) // 2
+        )
         x = max(0, min(x, popup.winfo_screenwidth() - popup.winfo_width()))
         y = max(0, min(y, popup.winfo_screenheight() - popup.winfo_height()))
         popup.geometry(f"+{x}+{y}")
@@ -1452,8 +1421,7 @@ class CopyScheduler:
         offset = value.strftime("%z")
         offset = f"UTC{offset[:3]}:{offset[3:]}" if offset else "UTC"
         return (
-            f"{value.day} {MONTHS[value.month - 1]}, "
-            f"{value.strftime('%H:%M')} {offset}"
+            f"{value.day} {MONTHS[value.month - 1]}, {value.strftime('%H:%M')} {offset}"
         )
 
     def _update_clock(self):
@@ -1558,9 +1526,7 @@ class CopyScheduler:
             source = Path(source_text).expanduser()
             destination_folder = Path(destination_text).expanduser()
 
-            if not source.exists() or not (
-                source.is_file() or source.is_dir()
-            ):
+            if not source.exists() or not (source.is_file() or source.is_dir()):
                 reject("Select an existing file, folder, or drive.")
                 return
             if not destination_folder.is_dir():
@@ -1657,9 +1623,7 @@ class CopyScheduler:
                 total = 0
                 for root, dirs, files in os.walk(source, followlinks=False):
                     dirs[:] = [
-                        name
-                        for name in dirs
-                        if not (Path(root) / name).is_symlink()
+                        name for name in dirs if not (Path(root) / name).is_symlink()
                     ]
                     for name in files:
                         path = Path(root) / name
@@ -1670,9 +1634,7 @@ class CopyScheduler:
             last_percent = [-1]
 
             def copy_file(src, dst):
-                with open(src, "rb") as source_file, open(
-                    dst, "wb"
-                ) as target_file:
+                with open(src, "rb") as source_file, open(dst, "wb") as target_file:
                     while True:
                         chunk = source_file.read(4 * 1024 * 1024)
                         if not chunk:
@@ -1721,13 +1683,15 @@ class CopyScheduler:
                     self._remove_path(backup_path)
                     backup_created = False
                 except Exception as cleanup_error:
-                    self.events.put((
-                        "done",
-                        True,
-                        f"Copy completed: {target}. "
-                        f"Could not remove backup {backup_path}: "
-                        f"{cleanup_error}",
-                    ))
+                    self.events.put(
+                        (
+                            "done",
+                            True,
+                            f"Copy completed: {target}. "
+                            f"Could not remove backup {backup_path}: "
+                            f"{cleanup_error}",
+                        )
+                    )
                     return
 
             self.events.put(("done", True, f"Copy completed: {target}"))
@@ -1789,9 +1753,8 @@ class CopyScheduler:
                 if selected < date.today():
                     raise ValueError("The selected date has already passed.")
 
-            if (
-                self.mode.get() == "Selected days"
-                and not any(self.custom_days.values())
+            if self.mode.get() == "Selected days" and not any(
+                self.custom_days.values()
             ):
                 raise ValueError("Select at least one day of the week.")
 
@@ -1826,10 +1789,7 @@ class CopyScheduler:
             if mode == "Selected days":
                 due = due and self.custom_days[DAYS[now.weekday()]]
             elif mode == "Specific date":
-                due = (
-                    due
-                    and now.date().isoformat() == self.selected_date.get()
-                )
+                due = due and now.date().isoformat() == self.selected_date.get()
 
             run_key = f"{mode}:{now.date()}:{self.time.get()}"
             if due and run_key != self.last_run_key:

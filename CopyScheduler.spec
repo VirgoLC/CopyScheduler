@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['python copy_scheduler.py'],
+    ['copy_scheduler.py'],
     pathex=[],
     binaries=[],
     datas=[('app.ico', '.'), ('app.png', '.')],
