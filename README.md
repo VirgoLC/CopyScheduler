@@ -27,7 +27,7 @@ Download the latest `CopyScheduler.exe` from the [Releases](https://github.com/V
 Requires Windows and Python 3.
 
 ```powershell
-py "python copy_scheduler.py"
+py "copy_scheduler.py"
 ```
 
 The app uses Python’s standard library, including Tkinter.
@@ -43,7 +43,7 @@ py -m pip install pyinstaller
 From the project folder, run:
 
 ```powershell
-py -m PyInstaller --noconfirm --clean --onefile --windowed --name CopyScheduler --icon "app.ico" --add-data "app.ico;." --add-data "app.png;." "python copy_scheduler.py"
+py -m PyInstaller --noconfirm --clean --onefile --windowed --name CopyScheduler --icon "app.ico" --add-data "app.ico;." --add-data "app.png;." "copy_scheduler.py"
 ```
 
 The executable will be created at `dist\CopyScheduler.exe`.
